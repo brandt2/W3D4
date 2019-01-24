@@ -5,7 +5,9 @@ def it_was_ok
   #
   # We can use ranges (a..b) inside a where method.
   #
-  # Find the id, title, and score of all movies with scores between 2 and 3
+  # Find the id, title, and score of all movies with scores between 
+  # 2 and 3
+  Movie.select(:id, :title, :score).where('score BETWEEN 2 AND 3')
 
 end
 
@@ -20,6 +22,9 @@ def harrison_ford
   #
   # Find the id and title of all movies in which Harrison Ford
   # appeared but not as a lead actor
+  #Movie.select(:id, :title).joins(:actors, :castings).where(actors: {name: "Harrison Ford"}).where(castings_movies: "ord > 1")
+  Movie.select(:id, :title).joins(:actors)
+    .where("actors.name = 'Harrison Ford' AND ord != 1")
 
 end
 
@@ -32,11 +37,18 @@ def biggest_cast
   #   .order('COUNT(movies.id) DESC')
   #   .limit(1)
   #
-  # Sometimes we need to use aggregate SQL functions like COUNT, MAX, and AVG.
+  # Sometimes we need to use aggregate SQL functions like COUNT, 
+  # MAX, and AVG.
   # Often these are combined with group.
   #
   # Find the id and title of the 3 movies with the
   # largest casts (i.e most actors)
+  Movie.select(:id, :title)
+    .joins(:actors)
+    .group('movies.id')
+    .order('COUNT(actors.id) DESC')
+    .limit(3)
+
 
 end
 
@@ -52,7 +64,10 @@ def directed_by_one_of(them)
   # Movie.where(yr: years)
   #
   # Find the id and title of all the movies directed by one of 'them'.
+  # them = ['George Lucas', 'Steven Spielberg']
 
+  Movie.select(:id, :title)
+    .where("director IN (?)", them)
 end
 
 def movie_names_before_1940
