@@ -10,10 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190124233808) do
+ActiveRecord::Schema.define(version: 20190125000723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answer_choices", force: :cascade do |t|
+    t.integer "question_id", null: false
+    t.string "text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_answer_choices_on_question_id"
+  end
+
+  create_table "polls", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_polls_on_title"
+    t.index ["user_id"], name: "index_polls_on_user_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "text", null: false
+    t.integer "poll_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["poll_id"], name: "index_questions_on_poll_id"
+  end
+
+  create_table "reponses", force: :cascade do |t|
+    t.integer "question_id", null: false
+    t.integer "answer_choice_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_reponses_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
