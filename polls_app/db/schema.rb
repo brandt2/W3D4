@@ -40,13 +40,13 @@ ActiveRecord::Schema.define(version: 20190125000723) do
     t.index ["poll_id"], name: "index_questions_on_poll_id"
   end
 
-  create_table "reponses", force: :cascade do |t|
+  create_table "responses", force: :cascade do |t|
     t.integer "question_id", null: false
     t.integer "answer_choice_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_reponses_on_user_id"
+    t.index ["user_id"], name: "index_responses_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
